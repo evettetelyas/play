@@ -11,6 +11,14 @@ const create = (request, response) => {
 	.catch(error => response.status(400).json(error))
 }
 
+const show = (request, response) => {
+	var user_id = 1
+	Favorite.show(user_id)
+	.then((faves) => response.status(201).json(faves))
+	.catch(error => response.status(400).json(error))
+}
+
 module.exports = {
 	create,
+	show,
 	}
