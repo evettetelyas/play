@@ -13,12 +13,20 @@ const create = (request, response) => {
 
 const index = (request, response) => {
 	var user_id = 1
-	Favorite.show(user_id)
+	Favorite.index(user_id)
 	.then((faves) => response.status(201).json(faves))
+	.catch(error => response.status(400).json(error))
+}
+
+const show = (request, response) => {
+	var id = request.params.id
+	Favorite.show(id)
+	.then((fave) => response.status(201).json(fave))
 	.catch(error => response.status(400).json(error))
 }
 
 module.exports = {
 	create,
 	index,
+	show,
 	}
