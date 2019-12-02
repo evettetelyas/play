@@ -11,7 +11,7 @@ const create = (request, response) => {
 	.catch(error => response.status(400).json(error))
 }
 
-const show = (request, response) => {
+const index = (request, response) => {
 	var user_id = 1
 	Favorite.show(user_id)
 	.then((faves) => response.status(201).json(faves))
@@ -20,5 +20,5 @@ const show = (request, response) => {
 
 module.exports = {
 	create,
-	show,
+	index,
 	}

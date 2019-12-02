@@ -19,6 +19,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.post('/api/v1/favorites', favoritesController.create)
-app.get('/api/v1/favorites', favoritesController.show)
+app.get('/api/v1/favorites', favoritesController.index)
 
 module.exports = app;
