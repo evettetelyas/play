@@ -23,7 +23,7 @@ module.exports = {
   },
   production: {
     client: 'pg',
-    connection: '',
+    connection: 'postgres://kjznojfttzploa:fbafaf64fc44cc1f6d65aec77afb31383d594321176f7c27eb3462bce4b39d0b@ec2-174-129-255-76.compute-1.amazonaws.com:5432/db8nuvgjvaa32t',
     migrations: {
       directory: './db/migrations'
     },
