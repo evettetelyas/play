@@ -11,8 +11,13 @@ const index = (user_id) => database('favorites')
 const show = (id) => database('favorites')
 	.where({id: id})
 
+const destroy = (id) => database('favorites')
+	.del()
+	.where({id: id})
+
 module.exports = {
 	create,
 	index,
 	show,
+	destroy,
 }

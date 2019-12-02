@@ -25,8 +25,16 @@ const show = (request, response) => {
 	.catch(error => response.status(400).json(error))
 }
 
+const destroy = (request, response) => {
+	var id = request.params.id
+	Favorite.destroy(id)
+	.then(() => response.status(204).json())
+	.catch(error => response.status(404).json(error))
+}
+
 module.exports = {
 	create,
 	index,
 	show,
+	destroy,
 	}
