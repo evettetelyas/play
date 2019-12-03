@@ -1,20 +1,28 @@
 require('dotenv').config();
 const Favorite = require('../models/favorite')
+var fetch = require('node-fetch');
+const musixKey = process.env.MUSIX_API_KEY
+let url = 'https://api.musixmatch.com/ws/1.1/'
+const service = require('../services/musixApiService')
+
 
 const create = (request, response) => {
-	var fave = request.body
-	var user_id = 1
-	Favorite.create(user_id, fave.title, fave.artistName, fave.genre, fave.rating)
-	.then(() => response.status(201).json({
-		message: `${fave.title} by ${fave.artistName} has been added to your favorites`
-		}))
+	service.trackSearch(request)
+	.then(json => service.formatted(json))
+	.then((obj) => {
+		Favorite.create(obj)
+		.then((id) => {
+			Favorite.find(parseInt(id))
+			.then((favId) => response.status(201).json(favId))
+		})
+	})
 	.catch(error => response.status(400).json(error))
 }
 
 const index = (request, response) => {
 	var user_id = 1
 	Favorite.userFavorites(user_id)
-	.then((faves) => response.status(201).json(faves))
+	.then((faves) => response.status(200).json(faves))
 	.catch(error => response.status(400).json(error))
 }
 
