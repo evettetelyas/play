@@ -13,11 +13,18 @@ async function trackSearch(request) {
 }
 
 function formatted(json) {
+  var rating = json.track.track_rating
+  if (rating > 100 || rating < 1) {
+    rating = 50
+  } else {
+    rating = json.track.track_rating
+  }
+
   var obj = {
     title: json.track.track_name,
     artistName: json.track.artist_name,
-    genre: 'FIX ME',
-    rating: json.track.track_rating,
+    genre: json.track.primary_genres.music_genre_list[0].music_genre.music_genre_name_extended || "Unknown",
+    rating: rating,
     user_id: 1
   }
   return obj;
