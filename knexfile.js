@@ -31,5 +31,17 @@ module.exports = {
       directory: './db/seeds'
     },
     useNullAsDefault: true
+  },
+
+  staging: {
+    client: 'pg',
+    connection: 'postgres://fhnmpzgmrethhs:801d3e9d6fbaee5d7f7e8a9a7de26cf176e45a50ce28fb22d4de4f0833483030@ec2-174-129-255-91.compute-1.amazonaws.com:5432/d4f05rb7hlrg9g',
+    migrations: {
+      directory: './db/migrations'
+    },
+    seeds: {
+      directory: './db/seeds'
+    },
+    useNullAsDefault: true
   }
 };
