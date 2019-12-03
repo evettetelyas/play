@@ -23,4 +23,5 @@ app.get('/api/v1/favorites', favoritesController.index)
 app.get('/api/v1/favorites/:id', favoritesController.show)
 app.delete('/api/v1/favorites/:id', favoritesController.destroy)
 
+
 module.exports = app;
