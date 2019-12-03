@@ -13,14 +13,14 @@ const create = (request, response) => {
 
 const index = (request, response) => {
 	var user_id = 1
-	Favorite.index(user_id)
+	Favorite.userFavorites(user_id)
 	.then((faves) => response.status(201).json(faves))
 	.catch(error => response.status(400).json(error))
 }
 
 const show = (request, response) => {
 	var id = request.params.id
-	Favorite.show(id)
+	Favorite.find(id)
 	.then((fave) => response.status(201).json(fave))
 	.catch(error => response.status(400).json(error))
 }
