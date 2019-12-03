@@ -1,14 +1,21 @@
 # Welcome to Play
 
-## Introduction
+## Introduction <a name="intro"></a>
 
 1. TravisCI link and build status
-1. bla bla bla about this mod 4 paired project over x amount of days
-1. linkable contents
-1. link to project requirements
-1. link to rubric
 
-## Initial Setup
+1. [Introduction](#intro)
+1. [Initial Setup](#setup)
+1. [Testing Suite](#testing)
+1. [How to Use](#use)
+1. [Schema Design](#schema)
+1. [Tech Stack](#stack)
+1. [Core Contributors](#contributors)
+
+
+Welcome to Play, a paired project over 10 days during the final semester of our Turing School of Software & Design education. This application lets a user save a list of favorite songs with full CRUD functionality. The two of us sat down prior to coding to Define The Relationship for the project lifespan - the details of the DTR can be found [here](https://gist.github.com/StarPerfect/19448e290af49813056fff8a029f3f5f). The project requirements can be found [here](https://backend.turing.io/module4/projects/play/play) and the grading rubric is outlined [here](https://backend.turing.io/module4/projects/play/play_rubric).
+
+## Initial Setup <a name="setup"></a>
 
 To use this repo, you'll need to `clone` a copy of the code base to your own machine. Once you've done that, make sure you are in the main project directory in terminal and run `npm install`. This will install all necessary dependencies required to run the app.
 
@@ -25,15 +32,15 @@ knex migrate:latest
 knex seed:run
 ```
 
-## Testing Suite
+## Testing Suite <a name="testing"></a>
 
-## How to Use
+## How to Use <a name="use"></a>
 
-## Schema Design
+## Schema Design <a name="schema"></a>
 
-## Tech Stack
+## Tech Stack <a name="stack"></a>
 
-## Core Contributors
+## Core Contributors <a name="contributors"></a>
 
 Evette Telyas
  - [GitHub](https://github.com/evettetelyas)
