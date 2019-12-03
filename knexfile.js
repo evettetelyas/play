@@ -35,7 +35,7 @@ module.exports = {
 
   staging: {
     client: 'pg',
-    connection: 'postgres://fhnmpzgmrethhs:801d3e9d6fbaee5d7f7e8a9a7de26cf176e45a50ce28fb22d4de4f0833483030@ec2-174-129-255-91.compute-1.amazonaws.com:5432/d4f05rb7hlrg9g',
+    connection: 'postgres://woxiwslrxggldd:ba684ce5e5b06f0c150ad3fa808bbf6e402f134bca284eb04e3b907eca58add2@ec2-174-129-255-26.compute-1.amazonaws.com:5432/da8t1f6q8ghq1d',
     migrations: {
       directory: './db/migrations'
     },
