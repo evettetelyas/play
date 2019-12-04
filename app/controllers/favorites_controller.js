@@ -31,7 +31,7 @@ const show = (request, response) => {
 	Favorite.find(id)
 	.then((fave) => {
 		if (fave[0]) {
-			response.status(201).json(fave)
+			response.status(200).json(fave)
 		} else {
 			response.status(404).json({
 				message: `Favorite not Found with id ${id}`
