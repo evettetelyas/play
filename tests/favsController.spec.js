@@ -42,12 +42,23 @@ describe('Test Favorites Controller functionality', () => {
     });
 
         describe('test showing single favorite', () => {
+            let fav = 0;
+
+            Favorite.create({
+                title: 'The JavaScript Jam',
+                artistName: 'Evette & The Corinas',
+                genre: 'Code',
+                rating: 100, 
+                user_id: 1
+            })
+            .then((id) => fav = id);
+            
         it('happy path', async () => {
             const res = await request(app)
-            .get('/api/v1/favorites/41')
+            .get(`/api/v1/favorites/${parseInt(fav)}`)
 
             expect(res.statusCode).toBe(200);
-             expect(res.body[0]).toHaveProperty('title')
+            expect(res.body[0]).toHaveProperty('title')
             expect(res.body[0]).toHaveProperty('artistName')
             expect(res.body[0]).toHaveProperty('genre')
             expect(res.body[0]).toHaveProperty('rating')
