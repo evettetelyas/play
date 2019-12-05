@@ -14,9 +14,12 @@ const destroy = (id) => database('favorites')
 	.del()
 	.where({id: id})
 
+const all = () => database('favorites').select()
+
 module.exports = {
 	create,
 	userFavorites,
 	find,
 	destroy,
+	all,
 }

@@ -25,7 +25,7 @@ function formatted(json) {
     artistName: json.track.artist_name,
     genre: json.track.primary_genres.music_genre_list[0].music_genre.music_genre_name_extended || "Unknown",
     rating: rating,
-    user_id: 1
+    playlist_id: 1
   }
   return obj;
 }

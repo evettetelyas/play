@@ -49,7 +49,7 @@ describe('Test Favorites Controller functionality', () => {
                 artistName: 'Evette & The Corinas',
                 genre: 'Code',
                 rating: 100, 
-                user_id: 1
+                playlist_id: 1
             })
             .then((id) => fav = id);
             
@@ -80,7 +80,7 @@ describe('Test Favorites Controller functionality', () => {
             artistName: 'Evette & The Corinas',
             genre: 'Code',
             rating: 100, 
-            user_id: 1
+            playlist_id: 1
         })
         .then((id) => fav = id);
 
