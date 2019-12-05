@@ -26,5 +26,6 @@ app.delete('/api/v1/favorites/:id', favoritesController.destroy)
 app.post('/api/v1/playlists', playlists.create)
 app.get('/api/v1/playlists', playlists.index)
 app.put('/api/v1/playlists/:id', playlists.update)
+app.delete('/api/v1/playlists/:id', playlists.destroy)
 
 module.exports = app;

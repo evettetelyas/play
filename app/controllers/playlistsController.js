@@ -43,8 +43,25 @@ const update = (request, response) => {
 	.catch(() => response.status(500).json())
 }
 
+const destroy = (request, response) => {
+	var id = request.params.id
+	Playlist.find(id)
+	.then((list) => {
+		if (list[0]) {
+			Playlist.destroy(id)
+			.then(() => response.status(204).json())
+		} else {
+			response.status(404).json({
+				message: `Playlist not Found with id ${id}`
+			})
+		}
+	})
+	.catch(() => response.status(500).json())
+}
+
 
 module.exports = 	{	create, 
 						index,
-						update
+						update,
+						destroy
 					};
