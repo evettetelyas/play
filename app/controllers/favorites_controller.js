@@ -20,8 +20,6 @@ const create = (request, response) => {
 }
 
 const index = (request, response) => {
-	// var user_id = 1
-	// Favorite.userFavorites(user_id)
 	Favorite.all()
 	.then((faves) => response.status(200).json(faves))
 	.catch(error => response.status(400).json(error))
