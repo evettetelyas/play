@@ -6,7 +6,7 @@ const Favorite = require('../app/models/favorite')
 describe('Test Favorites Controller functionality', () => {
     describe('test creating a favorite', () => {
         it('happy path', async () => {
-            let body = { "title": 'Tweezer', "artistName": 'Phish'}
+            let body = { "title": "Tweezer", "artistName": "Phish" }
             const res = await request(app)
             .post('/api/v1/favorites')
             .send(body)
@@ -19,7 +19,7 @@ describe('Test Favorites Controller functionality', () => {
         });
 
         it('sad path', async () => {
-            let body = { "title": 'Not happenin', "artistName": 'NOPE'}
+            let body = { "title": "Not happenin", "artistName": "NOPE" }
             const res = await request(app)
             .post('/api/v1/favorites')
             .send(body)
@@ -49,7 +49,7 @@ describe('Test Favorites Controller functionality', () => {
                 artistName: 'Evette & The Corinas',
                 genre: 'Code',
                 rating: 100, 
-                user_id: 1
+                playlist_id: 1
             })
             .then((id) => fav = id);
             
@@ -80,7 +80,7 @@ describe('Test Favorites Controller functionality', () => {
             artistName: 'Evette & The Corinas',
             genre: 'Code',
             rating: 100, 
-            user_id: 1
+            playlist_id: 1
         })
         .then((id) => fav = id);
 
