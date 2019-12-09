@@ -13,8 +13,7 @@ const findByTitle = (title) => database('playlists')
 
 const update = (oldPlaylistId, newTitle) => database('playlists')
     .where({id: oldPlaylistId})
-    .first()
-    .update(newTitle)
+    .update({ title: newTitle }, ["id"])
 
 const destroy = (id) => database('playlists')
 	.del()
