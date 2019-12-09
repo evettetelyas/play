@@ -27,12 +27,12 @@ const update = (request, response) => {
 	Playlist.find(request.params.id)
 		.then((list) => {
 		if (list[0]) {
-			Playlist.update(list[0].id, request.body)
+			Playlist.update(list[0].id, request.body["title"])
 				.then((revisedList) => {
-					Playlist.find(revisedList)
+					Playlist.find(revisedList[0].id)
 						.then((newObj) => {
 							response.status(200).json(newObj)
-				})
+					})
 				})
 		} else {
 			response.status(404).json({
