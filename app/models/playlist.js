@@ -22,6 +22,14 @@ const destroy = (id) => database('playlists')
 const all = () => database('playlists')
     .select()
 
+const addFavorite = (favId, listId) => database('favorites')
+    .where({id: favId})
+    .update({ playlist_id: listId }, ['title', 'playlist_id'])
+
+const findTitle = (id) => database('playlists')
+    .select("title")
+    .where({id: id})
+
 module.exports = {
 	create,
 	find,
@@ -29,4 +37,6 @@ module.exports = {
     update,
 	destroy,
 	all,
+    addFavorite,
+    findTitle
 }
