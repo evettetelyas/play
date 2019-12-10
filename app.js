@@ -27,5 +27,6 @@ app.post('/api/v1/playlists', playlists.create)
 app.get('/api/v1/playlists', playlists.index)
 app.put('/api/v1/playlists/:id', playlists.update)
 app.delete('/api/v1/playlists/:id', playlists.destroy)
+app.post('/api/v1/playlists/:idList/favorites/:idFav', playlists.addFav)
 
 module.exports = app;
