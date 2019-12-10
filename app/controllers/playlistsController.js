@@ -1,4 +1,5 @@
 const Playlist = require('../models/playlist')
+const Favorite = require('../models/favorite')
 
 const create = (request, response) => {
 	Playlist.findByTitle(request.body.title)
@@ -59,9 +60,27 @@ const destroy = (request, response) => {
 	.catch(() => response.status(500).json())
 }
 
+const addFav = (request, response) => {
+	var idFav = request.params.idFav 
+	var idList = request.params.idList 
+	Playlist.addFavorite(idFav, idList)
+	.then(async (idsObj) => {
+		let listTitle = ''
+
+		await Playlist.find(idsObj[0].playlist_id)
+			.then((bs) => listTitle = bs[0].title)
+				response.status(201).json({
+				"Success": `${idsObj[0].title} has been added to ${listTitle}!`
+			})
+			.catch(() => response.status(400).json())
+	})
+	.catch(() => response.status(400).json())
+}
+
 
 module.exports = 	{	create, 
 						index,
 						update,
-						destroy
+						destroy,
+						addFav
 					};
