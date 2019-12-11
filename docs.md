@@ -1,8 +1,6 @@
 # Welcome to Play
 
-## Introduction <a name="intro"></a>
-
-1. TravisCI link and build status
+[Production Site](https://playplayplay.herokuapp.com)[![Build Status](https://travis-ci.com/evettetelyas/play.svg?branch=master)](https://travis-ci.com/evettetelyas/play)
 
 1. [Introduction](#intro)
 1. [Initial Setup](#setup)
