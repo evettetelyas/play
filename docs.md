@@ -40,6 +40,8 @@ Running the test suite is very simple. `npm test` will run all tests in the enti
 
 ## Schema Design <a name="schema"></a>
 
+![Play Schema Diagram](https://user-images.githubusercontent.com/47605558/70668261-52b7b300-1c30-11ea-86e5-cc9cd913dcdc.png)
+
 ## Tech Stack <a name="stack"></a>
 
 [Node.js](https://nodejs.org/en/docs/)
