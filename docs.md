@@ -1,6 +1,8 @@
 # Welcome to Play
 
-[Production Site](https://playplayplay.herokuapp.com)[![Build Status](https://travis-ci.com/evettetelyas/play.svg?branch=master)](https://travis-ci.com/evettetelyas/play)
+[![Build Status](https://travis-ci.com/evettetelyas/play.svg?branch=master)](https://travis-ci.com/evettetelyas/play)
+
+[Production Site](https://playplayplay.herokuapp.com)
 
 1. [Introduction](#intro)
 1. [Initial Setup](#setup)
