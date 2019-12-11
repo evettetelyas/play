@@ -30,6 +30,17 @@ const findTitle = (id) => database('playlists')
     .select("title")
     .where({id: id})
 
+const allFavs = (id) => database('favorites')
+    .where({playlist_id: id})
+
+const avgRating = (totalFavs, listId) => database('favorites')
+    .where({playlist_id: listId})
+    .sum('rating')
+    .then((data) => {
+        (parseInt(data[0].sum)/totalFavs)
+    })
+
+
 module.exports = {
 	create,
 	find,
@@ -38,5 +49,7 @@ module.exports = {
 	destroy,
 	all,
     addFavorite,
-    findTitle
+    findTitle,
+    allFavs,
+    avgRating
 }
