@@ -16,10 +16,16 @@ const destroy = (id) => database('favorites')
 
 const all = () => database('favorites').select()
 
+const removeFromPlaylist = (id) => database('favorites')
+	.where({id: id})
+	.update({playlist_id: null}, ['id'])
+
+
 module.exports = {
 	create,
 	userFavorites,
 	find,
 	destroy,
 	all,
+	removeFromPlaylist
 }
