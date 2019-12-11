@@ -34,11 +34,22 @@ knex seed:run
 
 ## Testing Suite <a name="testing"></a>
 
+Running the test suite is very simple. `npm test` will run all tests in the entire project and report out a pretty testing table with coverage details.
+
 ## How to Use <a name="use"></a>
 
 ## Schema Design <a name="schema"></a>
 
 ## Tech Stack <a name="stack"></a>
+
+```
+[Node.js](https://nodejs.org/en/docs/)
+[Express](https://expressjs.com/)
+[Knex](http://knexjs.org/)
+[TravisCI](https://docs.travis-ci.com/)
+[Postgresql](https://www.postgresql.org/docs/)
+[Heroku](https://devcenter.heroku.com/categories/reference)
+```
 
 ## Core Contributors <a name="contributors"></a>
 
