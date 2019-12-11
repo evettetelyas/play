@@ -22,6 +22,25 @@ const destroy = (id) => database('playlists')
 const all = () => database('playlists')
     .select()
 
+const addFavorite = (favId, listId) => database('favorites')
+    .where({id: favId})
+    .update({ playlist_id: listId }, ['title', 'playlist_id'])
+
+const findTitle = (id) => database('playlists')
+    .select("title")
+    .where({id: id})
+
+const allFavs = (id) => database('favorites')
+    .where({playlist_id: id})
+
+const avgRating = (totalFavs, listId) => database('favorites')
+    .where({playlist_id: listId})
+    .sum('rating')
+    .then((data) => {
+        (parseInt(data[0].sum)/totalFavs)
+    })
+
+
 module.exports = {
 	create,
 	find,
@@ -29,4 +48,8 @@ module.exports = {
     update,
 	destroy,
 	all,
+    addFavorite,
+    findTitle,
+    allFavs,
+    avgRating
 }

@@ -2,6 +2,7 @@ var shell = require('shelljs');
 var request = require("supertest");
 var app = require('../app');
 const Playlist = require('../app/models/playlist')
+const Favorite = require('../app/models/favorite')
 
 describe('Test Playlist Controller functionality', () => {
 //     describe('test creating a list', () => {
@@ -28,15 +29,16 @@ describe('Test Playlist Controller functionality', () => {
         });
     }); 
 
-    describe('test getting all playlist', () => {
-        it('happy path', async () => {
-            const res = await request(app)
-                .get('/api/v1/playlists')
+// COMMENT OUT BELOW DUE TO FINAL ENDPOINT TO UDPATE THIS DATA WITH FAV SONGS ON EACH LIST
+    // describe('test getting all playlist', () => {
+    //     it('happy path', async () => {
+    //         const res = await request(app)
+    //             .get('/api/v1/playlists')
 
-            expect(res.statusCode).toBe(200);
-            expect(res.body[0]).toHaveProperty('title')
-        });
-    });
+    //         expect(res.statusCode).toBe(200);
+    //         expect(res.body[0]).toHaveProperty('title')
+    //     });
+    // });
 
     describe('test updating playlist', () => {
 //         let list = 0;
@@ -89,3 +91,40 @@ describe('Test Playlist Controller functionality', () => {
             expect(res.statusCode).toBe(404);
         }); 
     });
+
+    describe('adding fav songs to playlist', () => {
+        let fav = 0;
+
+            Favorite.create({
+                title: 'Sprint 3 Song',
+                artistName: 'Evette & The Corinas',
+                genre: 'Code',
+                rating: 100, 
+                playlist_id: 1
+            })
+            .then((id) => fav = id);
+
+       it('happy path', async () => {
+           const res = await request(app)
+           .post(`/api/v1/playlists/1/favorites/${parseInt(fav)}`)
+
+            expect(res.statusCode).toBe(201);
+            expect(res.body).toStrictEqual({"Success": "Sprint 3 Song has been added to siqq jamz!"})
+       })
+
+       it('sad path', async () => {
+           const res = await request(app)
+           .post(`/api/v1/playlists/1/favorites/9976`)
+
+            expect(res.statusCode).toBe(400);
+       })
+    });
+
+    describe('Showing all fav songs on a playlist', () => {
+        it('happy path', async () => {
+            const res = await request(app)
+            .get('/api/v1/playlists/1/favorites')
+
+            expect(res.statusCode).toBe(200)
+        })
+    })
