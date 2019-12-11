@@ -34,7 +34,7 @@ async function allListsFormatter(lists) {
 			let obj = {
 				"id": list.id,
 				"title": list.title,
-				"songCount": 0,
+				"songCount": data.length,
 				"songAvgRating": 0,
 				"favorites": data,
 				"createdAt": list.created_at,
