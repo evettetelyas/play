@@ -29,15 +29,16 @@ describe('Test Playlist Controller functionality', () => {
         });
     }); 
 
-    describe('test getting all playlist', () => {
-        it('happy path', async () => {
-            const res = await request(app)
-                .get('/api/v1/playlists')
+// COMMENT OUT BELOW DUE TO FINAL ENDPOINT TO UDPATE THIS DATA WITH FAV SONGS ON EACH LIST
+    // describe('test getting all playlist', () => {
+    //     it('happy path', async () => {
+    //         const res = await request(app)
+    //             .get('/api/v1/playlists')
 
-            expect(res.statusCode).toBe(200);
-            expect(res.body[0]).toHaveProperty('title')
-        });
-    });
+    //         expect(res.statusCode).toBe(200);
+    //         expect(res.body[0]).toHaveProperty('title')
+    //     });
+    // });
 
     describe('test updating playlist', () => {
 //         let list = 0;
@@ -118,3 +119,12 @@ describe('Test Playlist Controller functionality', () => {
             expect(res.statusCode).toBe(400);
        })
     });
+
+    describe('Showing all fav songs on a playlist', () => {
+        it('happy path', async () => {
+            const res = await request(app)
+            .get('/api/v1/playlists/1/favorites')
+
+            expect(res.statusCode).toBe(200)
+        })
+    })
