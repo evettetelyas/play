@@ -20,8 +20,30 @@ const create = (request, response) => {
 
 const index = (request, response) => {
 	Playlist.all()
-	.then((lists) => response.status(200).json(lists))
+	.then(async (lists) => {
+		await allListsFormatter(lists)
+		.then((data) => response.status(200).json(data))
+	})
 	.catch(error => response.status(400).json(error))
+}
+
+async function allListsFormatter(lists) {
+		let mappedList = Promise.all(await lists.map (async (list) => {
+		return await Playlist.allFavs(list.id)
+		.then((data) => {
+			let obj = {
+				"id": list.id,
+				"title": list.title,
+				"songCount": 0,
+				"songAvgRating": 0,
+				"favorites": data,
+				"createdAt": list.created_at,
+				"updatedAt": list.updated_at
+			}
+			return obj
+		})
+	}))
+	return mappedList 
 }
 
 const update = (request, response) => {
@@ -63,6 +85,7 @@ const destroy = (request, response) => {
 const addFav = (request, response) => {
 	var idFav = request.params.idFav 
 	var idList = request.params.idList 
+
 	Playlist.addFavorite(idFav, idList)
 	.then(async (idsObj) => {
 		let listTitle = ''
@@ -77,10 +100,65 @@ const addFav = (request, response) => {
 	.catch(() => response.status(400).json())
 }
 
+const show = (request, response) => {
+	var id = request.params.id 
+	var favsArray = []
+
+	Playlist.allFavs(id)
+	.then(async (data) => {
+		await favsArray.push(data)
+	})
+	.catch(() => response.status(400).json())
+
+	Playlist.find(id)
+	.then(async (playlist) => {
+		await response.status(200).json(
+			listFormatter(playlist[0], favsArray[0])
+		)
+	})
+}
+
+const listFormatter = (list, favs) => {
+	let listSongRating = 0
+	
+	Playlist.avgRating(favs.length, list.id)
+	.then((data) => {
+		listSongRating = data 
+	})
+
+	object = {
+		"id": list.id,
+		"title": list.title,
+		"songCount": favs.length,
+		"songAvgRating": 'I NEED A FIXIN',
+		"favorites" : favs,
+		"createdAt": list.created_at,
+		"updatedAt": list.updated_at
+	}
+	return object
+}
+
+const deleteFav = (request, response) => {
+	var id = request.params.idFav
+	Favorite.find(id)
+	.then((fav) => {
+		if (fav[0]) {
+			Favorite.removeFromPlaylist(fav[0].id)
+			.then(() => response.status(204).json())
+		} else {
+			response.status(404).json({
+				message: `Favorite not Found with id ${id}`
+			})
+		}
+	})
+	.catch(() => response.status(500).json())
+}
 
 module.exports = 	{	create, 
 						index,
 						update,
 						destroy,
-						addFav
+						addFav,
+						show,
+						deleteFav
 					};
