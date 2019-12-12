@@ -38,6 +38,14 @@ Running the test suite is very simple. `npm test` will run all tests in the enti
 
 ## How to Use <a name="use"></a>
 
+This application utilizes external data from the MusixMatch API. Our search is based upon their [Matcher.Track.Get](https://developer.musixmatch.com/documentation/api-reference/matcher-track-get) endpoint. You'll need to [register](https://developer.musixmatch.com/signup) for an API Key with them to get this application working locally on your own machine. Once you've obtained your key, create a .env file in the main project directory. Within this file, add the following:
+
+```
+MUSIX_API_KEY=your_key_goes_here
+```
+
+Now you're ready to hit our endpoints and see this app in action!
+
 #### POST /api/v1/favorites
 
 To create a new favorite, use the following request parameters:
