@@ -5,16 +5,19 @@ const Playlist = require('../app/models/playlist')
 const Favorite = require('../app/models/favorite')
 
 describe('Test Playlist Controller functionality', () => {
-//     describe('test creating a list', () => {
-//         it('happy path', async () => {
-//             let body = { "title": "My New Thingz" }
-//             const res = await request(app)
-//             .post('/api/v1/playlists')
-//             .send(body)
+    describe('test creating a list', () => {
+        it('happy path', async () => {
+            let body = { "title": "TestingJamz" }
+            const res = await request(app)
+            .post('/api/v1/playlists')
+            .send(body)
 
-//             expect(res.statusCode).toBe(201);
-//             expect(res.body[0].title).toBe("My New Thingz")
-//         });
+            expect(res.statusCode).toBe(201);
+            expect(res.body[0].title).toBe("TestingJamz")
+
+            Playlist.destroy(res.body[0].id)
+            .then(result => result)
+        })
 
         it('sad path', async () => {
             let list = 0;
@@ -29,33 +32,17 @@ describe('Test Playlist Controller functionality', () => {
         });
     }); 
 
-// COMMENT OUT BELOW DUE TO FINAL ENDPOINT TO UDPATE THIS DATA WITH FAV SONGS ON EACH LIST
-    // describe('test getting all playlist', () => {
-    //     it('happy path', async () => {
-    //         const res = await request(app)
-    //             .get('/api/v1/playlists')
-
-    //         expect(res.statusCode).toBe(200);
-    //         expect(res.body[0]).toHaveProperty('title')
-    //     });
-    // });
-
     describe('test updating playlist', () => {
-//         let list = 0;
+        it('test happy update path', async () => {
+            const body = { "title": "Ruby is Better"}
+            const playlistId = await Playlist.create({title: "Change Me"})
+            const res = await request(app)
+                .put(`/api/v1/playlists/${playlistId}`)
+                .send(body)
 
-//         Playlist.findByTitle("My New Thingz")
-//         .then((id) => list = id[0]);
-
-//         it('test happy update path', async () => {
-//             body = { "title": "Ruby is Better"}
-
-//             const res = await request(app)
-//                 .put(`/api/v1/playlists/${list.id}`)
-//                 .send(body)
-
-//             expect(res.statusCode).toBe(200);
-//             expect(res.body[0].title).toBe("Ruby is Better")
-//         })
+            expect(res.statusCode).toBe(200);
+            expect(res.body[0].title).toBe("Ruby is Better")
+        })
 
         it('test sad update path', async () => {
             body = { "title": "Ruby is Better"}
@@ -69,20 +56,13 @@ describe('Test Playlist Controller functionality', () => {
     })
 
     describe('test deleting list', () => {
-//         let list = 0;
+        it('happy path', async () => {
+            const newPlaylistId = await Playlist.create({title: "delete_me"})
+            const res = await request(app)
+            .delete(`/api/v1/playlists/${newPlaylistId}`)
 
-//         const deleteFunction = Playlist.findByTitle("Ruby is Better")
-//         .then((cat) => {
-//             list = cat[0].id
-//             return list
-//         })
-// console.log(deleteFunction)
-//         it('happy path', async () => {
-//             const res = await request(app)
-//             .delete(`/api/v1/playlists/${list}`)
-
-//             expect(res.statusCode).toBe(204);
-//         });
+            expect(res.statusCode).toBe(204);
+        }); 
 
         it('sad path', async () => {
             const res = await request(app)
@@ -128,3 +108,18 @@ describe('Test Playlist Controller functionality', () => {
             expect(res.statusCode).toBe(200)
         })
     })
+
+    describe('Showing all playlists', () => {
+        it('happy path', async () => {
+            const res = await request(app)
+            .get('/api/v1/playlists')
+
+            expect(res.statusCode).toBe(200)
+            expect(res.body[0]).toHaveProperty('title')
+            expect(res.body[0]).toHaveProperty('songCount')
+            expect(res.body[0]).toHaveProperty('songAvgRating')
+            expect(res.body[0]).toHaveProperty('favorites')
+
+        })
+    })
+})

@@ -1,74 +1,264 @@
-# All your Express base are belong to us
+# Welcome to Play
 
-[![Build Status](https://travis-ci.com/turingschool-examples/all-your-base.svg?branch=master)](https://travis-ci.com/turingschool-examples/all-your-base)
+[![Build Status](https://travis-ci.com/evettetelyas/play.svg?branch=master)](https://travis-ci.com/evettetelyas/play)
 
-## Getting started
-To use this repo, you’ll need to `fork` the repo as your own. Once you have done that, you’ll need to run the following command below to get everything up and running. 
+[Production Site](https://playplayplay.herokuapp.com)
 
-#### Installing necessary dependencies
-The easiest way to get started is to run the following command. This will pull down any necessary dependencies that your app will require. You can think of this command as something incredibly similar to `bundle install` in Rails. 
-
-`npm install`
-
-#### Set up your local database
-You’ll need to figure out a name for your database. We suggest calling it something like `sweater_weather_dev`.  
-
-To get things set up, you’ll need to access your Postgres instance by typing in `psql` into your terminal. Once there, you can create your database by running the comment `CREATE DATABASE PUT_DATABASE_NAME_HERE_dev;`. 
-
-Now you have a database for your new project.
-
-#### Migrations
-Once you have your database setup, you’ll need to run some migrations (if you have any). You can do this by running the following command: 
-
-`knex migrate:latest`
+1. [Introduction](#intro)
+1. [Initial Setup](#setup)
+1. [Testing Suite](#testing)
+1. [How to Use](#use)
+1. [Schema Design](#schema)
+1. [Tech Stack](#stack)
+1. [Core Contributors](#contributors)
 
 
-Instructions to create database, run migrations, and seed: 
+Welcome to Play, a paired project over 10 days during the final semester of our Turing School of Software & Design education. This application lets a user save a list of favorite songs with full CRUD functionality. The two of us sat down prior to coding to Define The Relationship for the project lifespan - the details of the DTR can be found [here](https://gist.github.com/StarPerfect/19448e290af49813056fff8a029f3f5f). The project requirements can be found [here](https://backend.turing.io/module4/projects/play/play) and the grading rubric is outlined [here](https://backend.turing.io/module4/projects/play/play_rubric).
+
+## Initial Setup <a name="setup"></a>
+
+To use this repo, you'll need to `clone` a copy of the code base to your own machine. Once you've done that, make sure you are in the main project directory in terminal and run `npm install`. This will install all necessary dependencies required to run the app.
+
+### Setting up the database
+
+You need a local Postgres database to run this application as well. We've named ours simply `play_dev`. To get this established, run `psql` from the command prompt. Once into a Postgres session, create your database by running `CREATE DATABASE play_dev;`. It should respond with `CREATE DATABASE`. Type `\q` to quit Postgres.
+
+### Migrations
+
+Now that you've got a local copy of the application along with a database to use, you'll need to run the migrations so your database has the necessary tables. From the command line, type:
+
 ```
-psql
-CREATE DATABASE DATABASE_NAME_dev;
-\q
-
 knex migrate:latest
 knex seed:run
 ```
 
-#### Set up your test database
-Most of the setup is going to be same as the one you did before. You’ll notice one small difference with setting the environment flag to `test`.  
+## Testing Suite <a name="testing"></a>
+
+Running the test suite is very simple. `npm test` will run all tests in the entire project and report out a pretty testing table with coverage details.
+
+## How to Use <a name="use"></a>
+
+This application utilizes external data from the MusixMatch API. Our search is based upon their [Matcher.Track.Get](https://developer.musixmatch.com/documentation/api-reference/matcher-track-get) endpoint. You'll need to [register](https://developer.musixmatch.com/signup) for an API Key with them to get this application working locally on your own machine. Once you've obtained your key, create a .env file in the main project directory. Within this file, add the following:
 
 ```
-psql
-CREATE DATABASE DATABASE_NAME_test;
-\q
-
-knex migrate:latest --env test
+MUSIX_API_KEY=your_key_goes_here
 ```
 
-## Running your tests
-Running tests are simple and require you to run the following command below: 
+Now you're ready to hit our endpoints and see this app in action!
 
-`npm test`
+#### POST /api/v1/favorites
 
-When the tests have completed, you’ll get a read out of how things panned out. The tests will be a bit more noisy than what you’re used to, so be prepared. 
+To create a new favorite, use the following request parameters:
 
-## Setting up your production environment
-This repo comes with a lot of things prepared for you. This includes production ready configuration. To get started, you’ll need to do a few things. 
-
-- Start a brand new app on the Heroku dashboard 
-- Add a Postgres instance to your new Heroku app
-- Find the URL of that same Postgres instance and copy it. It should look like a long url. It may look something like like `postgres://sdflkjsdflksdf:9d3367042c8739f3...`.
-- Update your `knexfile.js` file to use your Heroku database instance. You’ll see a key of `connection` with a value of an empty string. This is where you’ll paste your new Postgres instance URL. 
-
-Once you’ve set all of that up, you’ll need to `add the remote` to your new app. This should work no differently than how you’ve done it with any Rails project. Adding this remote will allow you to run `git push heroku master`. 
-
-Once you’ve done that, you’ll need to `bash` into your Heroku instance and get some things set up. 
-
-- Run the following commands to get started:
 ```
-heroku run bash
-npm install
-nom install -g knex
-knex migrate:latest
+{ title: "We Will Rock You", artistName: "Queen" }
 ```
 
-This will install any dependencies, install Knex, and migrate any changes that you’ve made to the database. 
+Response Body:
+
+```
+{
+  "id": 1,
+  "title": "We Will Rock You",
+  "artistName": "Queen"
+  "genre": "Rock",
+  "rating": 88
+}
+```
+
+If a favorite is successfully created, the item will be returned with a status code of 201. If the favorite is not successfully created, a 400 status code will be returned.
+
+#### GET /api/v1/favorites
+
+Returns all favorited songs currently in the database. The index of favorites will be returned in the following format:
+
+```
+[
+  {
+    "id": 1,
+    "title": "We Will Rock You",
+    "artistName": "Queen"
+    "genre": "Rock",
+    "rating": 88
+  },
+  {
+    "id": 2,
+    "title": "Careless Whisper",
+    "artistName": "George Michael"
+    "genre": "Pop",
+    "rating": 93
+  },
+]
+```
+
+#### GET /api/v1/favorites/:id
+
+Returns the favorite object with the specific :id you’ve passed in. A 404 is returned if the favorite is not found.
+
+```
+  {
+    "id": 1,
+    "title": "We Will Rock You",
+    "artistName": "Queen"
+    "genre": "Rock",
+    "rating": 88
+  }
+```
+
+#### DELETE /api/v1/favorites/:id
+
+Will delete the favorite with the id passed in and return a 204 status code. If the favorite can’t be found, a 404 will be returned.
+
+#### POST /api/v1/playlists
+
+The endpoint should accept a unique title for the new playlist.
+
+Returns the created playlist with a status code of 201 if successful.
+If the playlist is not successfully created it returns a 400.
+
+```
+{
+  "id": 1,
+  "title": "Cleaning House",
+  "createdAt": 2019-11-26T16:03:43+00:00,
+  "updatedAt": 2019-11-26T16:03:43+00:00,
+}
+```
+
+#### GET /api/v1/playlists
+
+Returns all playlists currently in the database.
+
+```
+[
+  {
+    "id": 1,
+    "title": "Cleaning House",
+    "songCount": 2,
+    "songAvgRating": 27.5,
+    "favorites": [
+                    {
+                      "id": 1,
+                      "title": "We Will Rock You",
+                      "artistName": "Queen"
+                      "genre": "Rock",
+                      "rating": 25
+                    },
+                    {
+                      "id": 4,
+                      "title": "Back In Black",
+                      "artistName": "AC/DC"
+                      "genre": "Rock",
+                      "rating": 30
+                    }
+                  ],
+    "createdAt": 2019-11-26T16:03:43+00:00,
+    "updatedAt": 2019-11-26T16:03:43+00:00
+}
+  {
+    "id": 2,
+    "title": "Running Mix",
+    "songCount": 0,
+    "songAvgRating": 0,
+    "favorites": []
+    "createdAt": 2019-11-26T16:03:43+00:00,
+    "updatedAt": 2019-11-26T16:03:43+00:00
+  },
+]
+```
+
+#### PUT /api/v1/playlists/:id
+
+Returns the updated playlist object with the specific :id you've passed in. Returns a 404 if the playlist is not found.
+
+```
+{
+  "id": 2,
+  "title": "Marathon Running Mix",
+  "createdAt": 2019-11-26T16:03:43+00:00,
+  "updatedAt": 2019-11-26T16:03:43+00:00
+}
+```
+
+#### DELETE /api/v1/playlists/:id
+
+Will delete the playlist with the :id passed in and returns a 204 status code.
+If the playlist can't be found, it returns a 404
+
+#### POST /api/v1/playlists/:id/favorites/:id
+
+The endpoint should accept a playlist id and a favorite id.
+
+Returns a success message with a status code of 201 if successful.
+If the favorite is not successfully added to the playlist it returns a 400.
+
+```
+{
+  "Success": "{Song Title} has been added to {Playlist Title}!"
+}
+```
+
+#### GET /api/v1/playlists/id/favorites
+
+Returns the playlist with the list of favorites
+
+```
+{
+  "id": 1,
+  "title": "Cleaning House",
+  "songCount": 2,
+  "songAvgRating": 27.5,
+  "favorites" : [
+                  {
+                    "id": 1,
+                    "title": "We Will Rock You",
+                    "artistName": "Queen"
+                    "genre": "Rock",
+                    "rating": 25
+                  },
+                  {
+                    "id": 4,
+                    "title": "Back In Black",
+                    "artistName": "AC/DC"
+                    "genre": "Rock",
+                    "rating": 30
+                  }
+               ],
+    "createdAt": 2019-11-26T16:03:43+00:00,
+    "updatedAt": 2019-11-26T16:03:43+00:00
+}
+```
+
+#### DELETE /api/v1/playlists/:id/favorites/:id
+
+Will delete the favorite from the playlist and returns a 204 status code.
+If the favorite can't be found, it returns a 404
+
+
+## Schema Design <a name="schema"></a>
+
+![Play Schema Diagram](https://user-images.githubusercontent.com/47605558/70668261-52b7b300-1c30-11ea-86e5-cc9cd913dcdc.png)
+
+## Tech Stack <a name="stack"></a>
+
+[Node.js](https://nodejs.org/en/docs/)
+
+[Express](https://expressjs.com/)
+
+[Knex](http://knexjs.org/)
+
+[TravisCI](https://docs.travis-ci.com/)
+
+[Postgresql](https://www.postgresql.org/docs/)
+
+[Heroku](https://devcenter.heroku.com/categories/reference)
+
+## Core Contributors <a name="contributors"></a>
+
+Evette Telyas
+ - [GitHub](https://github.com/evettetelyas)
+ - [LinkedIn](https://www.linkedin.com/in/evettetelyas/)
+
+Corina Allen
+ - [GitHub](https://github.com/StarPerfect)
+ - [LinkedIn](https://www.linkedin.com/in/corina-allen/)
